@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 丙午年 | 命定晶石運勢解析</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0b0e14; 
+            --card-bg: rgba(22, 26, 35, 0.85);
+            --accent-gold: #d4af37; 
+            --accent-gold-dim: #8a7026;
+            --text-main: #f5f5f5;
+            --text-muted: #9ea4b0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #1f2636 0%, var(--bg-color) 90%);
+            color: var(--text-main);
+            font-family: 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--accent-gold); }
+
+        .container { width: 100%; max-width: 700px; position: relative; z-index: 1; }
+
+        .header { text-align: center; margin-bottom: 45px; animation: fadeIn 1.5s ease; }
+        .header h1 { font-size: 2.4rem; letter-spacing: 1px; margin-bottom: 10px; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header p { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; }
+
+        /* 卡片樣式 */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+            transition: all 0.5s ease;
+        }
+
+        /* 表單元件 */
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; margin-bottom: 10px; color: var(--accent-gold); font-size: 0.95rem; letter-spacing: 1px; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        
+        input, select {
+            width: 100%; padding: 14px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #3a3f4b; border-radius: 6px;
+            color: #fff; font-size: 1rem; outline: none;
+            font-family: 'Noto Sans TC', sans-serif;
+            transition: 0.3s;
+        }
+        input:focus, select:focus { border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.15); }
+
+        /* 通用按鈕樣式 */
+        .btn-main {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #a67c00, #d4af37);
+            border: none; border-radius: 6px;
+            color: #0b0e14; font-weight: 600; font-size: 1.1rem;
+            cursor: pointer; letter-spacing: 2px;
+            transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: block; text-decoration: none; text-align: center;
+        }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3); filter: brightness(1.1); }
+
+        /* 幽靈按鈕 (外框風格) */
+        .btn-ghost {
+            background: transparent; 
+            border: 1px solid var(--accent-gold); 
+            color: var(--accent-gold);
+        }
+        .btn-ghost:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* 結果區樣式 */
+        #result-section { display: none; animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+
+        .year-tag {
+            display: inline-block; margin-bottom: 25px;
+            border: 1px solid var(--accent-gold); color: var(--accent-gold);
+            padding: 6px 18px; border-radius: 50px; font-size: 0.8rem; letter-spacing: 1.5px;
+        }
+
+        .missing-element-display {
+            text-align: center; margin-bottom: 40px;
+        }
+        .element-big {
+            font-size: 3.5rem; color: var(--text-main);
+            text-shadow: 0 0 30px var(--accent-gold-dim);
+            font-family: 'Playfair Display', serif; margin: 10px 0;
+        }
+
+        /* 運勢文字區 */
+        .fortune-block {
+            text-align: left; margin-bottom: 30px;
+            border-left: 2px solid var(--accent-gold-dim);
+            padding-left: 20px;
+        }
+        .fortune-block h3 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+        .fortune-block p { font-size: 0.95rem; line-height: 1.8; color: #ccc; margin-bottom: 15px; text-align: justify; }
+
+        /* 水晶推薦區 (圖文排版) */
+        .crystal-card {
+            display: flex; align-items: center; gap: 25px;
+            background: rgba(212, 175, 55, 0.06);
+            padding: 25px; border-radius: 12px;
+            margin-top: 30px; margin-bottom: 35px; /* 增加底部間距給按鈕 */
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .crystal-img-wrapper {
+            flex-shrink: 0; width: 120px; height: 120px;
+            border-radius: 50%; overflow: hidden;
+            border: 3px solid var(--accent-gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+            position: relative;
+            background: #000;
+        }
+
+        .crystal-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s;
+            opacity: 0; animation: fadeInImg 1s forwards;
+        }
+        @keyframes fadeInImg { to { opacity: 1; } }
+
+        .crystal-card:hover .crystal-img-wrapper img { transform: scale(1.1); }
+        .crystal-content h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--accent-gold); }
+        .crystal-content p { font-size: 0.9rem; color: #d1d1d1; line-height: 1.6; }
+
+        /* RWD */
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .crystal-card { flex-direction: column; text-align: center; }
+            .fortune-block { border-left: none; border-top: 2px solid var(--accent-gold-dim); padding-left: 0; padding-top: 20px; }
+            .container { padding: 20px; }
+            .card { padding: 30px 20px; }
+        }
+
+        /* Loading */
+        .loader {
+            display: none; width: 50px; height: 50px; margin: 30px auto;
+            border: 3px solid rgba(255,255,255,0.1); border-radius: 50%;
+            border-top-color: var(--accent-gold);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>CELESTIAL 2026</h1>
+            <p>Prophecy & Crystal Healing Guide</p>
+        </div>
+
+        <div class="card" id="input-card">
+            <div class="input-group">
+                <label>您的國曆生日</label>
+                <div class="form-row">
+                    <input type="number" id="year" placeholder="年 (YYYY)" min="1940" max="2025">
+                    <select id="month"><option value="" disabled selected>月</option></select>
+                    <select id="day"><option value="" disabled selected>日</option></select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>出生時辰</label>
+                <select id="hour">
+                    <option value="" disabled selected>請選擇時辰</option>
+                    <option value="-1">✦ 我不知道出生時間</option>
+                    <option value="0">子時 (23:00 - 00:59)</option>
+                    <option value="1">丑時 (01:00 - 02:59)</option>
+                    <option value="2">寅時 (03:00 - 04:59)</option>
+                    <option value="3">卯時 (05:00 - 06:59)</option>
+                    <option value="4">辰時 (07:00 - 08:59)</option>
+                    <option value="5">巳時 (09:00 - 10:59)</option>
+                    <option value="6">午時 (11:00 - 12:59)</option>
+                    <option value="7">未時 (13:00 - 14:59)</option>
+                    <option value="8">申時 (15:00 - 16:59)</option>
+                    <option value="9">酉時 (17:00 - 18:59)</option>
+                    <option value="10">戌時 (19:00 - 20:59)</option>
+                    <option value="11">亥時 (21:00 - 22:59)</option>
+                </select>
+            </div>
+            <button class="btn-main" style="margin-top: 15px;" onclick="calculate()">開啟流年命盤</button>
+        </div>
+
+        <div class="loader" id="loader"></div>
+
+        <div class="card" id="result-section">
+            <div style="text-align: center;">
+                <span class="year-tag">2026 丙午 火馬年</span>
+            </div>
+            
+            <div class="missing-element-display">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">您的五行能量缺口</p>
+                <h2 class="element-big" id="res-element">金 Metal</h2>
+                <p style="color: var(--accent-gold); font-size: 0.9rem;" id="res-keyword">需補強：決斷力與財庫</p>
+            </div>
+
+            <div class="fortune-block">
+                <h3>✦ 2026 流年運勢深度解析</h3>
+                <p id="res-fortune-career"></p>
+                <p id="res-fortune-health"></p>
+            </div>
+
+            <div class="crystal-card">
+                <div class="crystal-img-wrapper">
+                    <img id="res-img" src="" alt="Crystal" onerror="this.src='https://via.placeholder.com/150/000000/FFFFFF?text=Crystal'">
+                </div>
+                <div class="crystal-content">
+                    <h4 id="res-crystal-name">推薦：鈦晶 Rutilated Quartz</h4>
+                    <p id="res-crystal-desc">鈦晶具有強大的投射能量，能補足金氣，為您在火旺之年劈開阻礙，招引正財。</p>
+                </div>
+            </div>
+
+            <button class="btn-main" onclick="window.open('https://ltep.meepshoper.com/', '_blank')">
+                ✦ 前往官網 選購命定水晶
+            </button>
+
+            <button class="btn-main btn-ghost" style="margin-top: 15px;" onclick="reset()">
+                重新測算
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 初始化日期
+        const mSel = document.getElementById('month');
+        const dSel = document.getElementById('day');
+        for(let i=1;i<=12;i++) mSel.add(new Option(i+"月", i));
+        for(let i=1;i<=31;i++) dSel.add(new Option(i+"日", i));
+
+        // Pollinations AI 圖片生成
+        const getCrystalImage = (keyword) => {
+            const randomSeed = Math.floor(Math.random() * 1000);
+            return `https://image.pollinations.ai/prompt/${keyword}%20gemstone%20crystal%20jewelry%20macro%20cinematic%20lighting%20high%20quality?width=300&height=300&nologo=true&seed=${randomSeed}`;
+        };
+
+        const db = [
+            { 
+                type: '金 (Metal)', 
+                keyword: '需補強：決斷力與財庫',
+                fortuneCareer: '【事業與財運】：2026丙午年為火旺之年，火能剋金。對於缺金的您而言，今年職場上容易面臨「強壓」或「權威挑戰」。財務上可能會因為一時衝動或耳根子軟而有不必要的支出。關鍵在於「守」與「定」，切勿盲目跟風投資。',
+                fortuneHealth: '【身心與平衡】：金主呼吸系統與大腸。火氣過旺容易導致呼吸道敏感或皮膚乾燥。心理層面上，容易產生自我懷疑，需建立強大的心理邊界。',
+                crystalName: '首選：鈦晶 (Titanium Quartz)',
+                crystalDesc: '鈦晶為水晶之王，金黃色的光芒對應太陽輪與財富。它強勁霸道的能量能補足您缺失的「金」氣，助您在職場上展現魄力，同時具有極強的招財與擋煞效果，是火年保身的最佳利器。',
+                imgKeyword: 'Gold%20Rutile%20Quartz' 
+            },
+            { 
+                type: '木 (Wood)', 
+                keyword: '需補強：創造力與生機',
+                fortuneCareer: '【事業與財運】：火賴木生，木盡火滅。2026年火氣極盛，嚴重消耗木的能量。缺木的您今年容易感到「被掏空」，創意枯竭，工作上缺乏新方向，容易陷入機械式的疲勞運轉。建議多接觸新知，避免固步自封。',
+                fortuneHealth: '【身心與平衡】：木主肝膽與神經系統。需特別注意熬夜帶來的身體發炎反應，以及眼睛疲勞。情緒上容易焦慮緊繃，需要透過接觸大自然來釋放壓力。',
+                crystalName: '首選：綠幽靈 (Green Phantom)',
+                crystalDesc: '綠幽靈被稱為「鬼佬財神」，其綠色光芒對應心輪，象徵宇宙的生機與正財。佩戴綠幽靈能為乾涸的命局注入源源不絕的生命力，助您在事業上找回熱情，並吸引貴人提攜。',
+                imgKeyword: 'Green%20Phantom%20Quartz'
+            },
+            { 
+                type: '水 (Water)', 
+                keyword: '需補強：溝通與情緒調節',
+                fortuneCareer: '【事業與財運】：水火不容，2026年火勢強勁，缺水者猶如「旱地」。在職場人際溝通上容易發生摩擦，或者感到孤立無援。今年不宜強出頭，適合採取「以柔克剛」的策略，多做幕後策劃或數據分析工作。',
+                fortuneHealth: '【身心與平衡】：水主腎與生殖泌尿系統。需多補充水分，注意代謝循環。情緒上起伏較大，容易煩躁易怒，需學習冥想或透過水上活動來調節磁場。',
+                crystalName: '首選：黑曜石 (Black Obsidian)',
+                crystalDesc: '黑曜石極度避邪化煞，且五行屬水。在火氣沖天的年份，黑曜石能有效吸收周遭的躁氣與負能量，讓您的心境如深海般平靜沉穩。它亦能防小人暗算，是職場生存的護身符。',
+                imgKeyword: 'Black%20Obsidian%20Stone'
+            },
+            { 
+                type: '火 (Fire)', 
+                keyword: '需補強：行動力與熱情',
+                fortuneCareer: '【事業與財運】：雖逢火年，但若本命缺火，代表無法有效利用流年的勢能，甚至會產生「虛不受補」的狀況。今年您可能會有許多想法，但總是缺乏臨門一腳的執行力。今年是轉運關鍵，必須強迫自己動起來，主動爭取舞台。',
+                fortuneHealth: '【身心與平衡】：火主心血管與小腸。缺火者容易手腳冰冷，循環較差。精神上容易消極、提不起勁。建議多曬太陽，保持運動習慣以維持體溫與能量。',
+                crystalName: '首選：紫水晶 (Amethyst)',
+                crystalDesc: '紫水晶兼具火的熱情與水的智慧（紅+藍=紫）。它能開發智慧，同時提升貴人運（因貴人屬火）。配戴紫水晶能幫助您更敏銳地捕捉流年帶來的機會，將火年的能量轉化為實質的人脈存摺。',
+                imgKeyword: 'Purple%20Amethyst%20Crystal'
+            },
+            { 
+                type: '土 (Earth)', 
+                keyword: '需補強：穩定度與庫存',
+                fortuneCareer: '【事業與財運】：火生土，2026年火雖旺，但若無土承接，則「財來財去一場空」。缺土的您今年機會很多，現金流可能不錯，但很難存下來。容易搬家、換工作或奔波。今年的課題是「落地生根」，專注於累積資產。',
+                fortuneHealth: '【身心與平衡】：土主脾胃與消化系統。今年需特別注意飲食規律，避免暴飲暴食。心理上容易缺乏安全感，感到飄泊無依，需多親近土地或從事陶藝等活動。',
+                crystalName: '首選：黃水晶 (Citrine)',
+                crystalDesc: '黃水晶主偏財，五行屬土，被譽為「財富之石」。它具有凝聚財富的能量，能將流年火氣轉化為厚實的財庫。配戴黃水晶能增加企圖心與穩定性，讓您在動盪的火年中穩如泰山。',
+                imgKeyword: 'Yellow%20Citrine%20Crystal'
+            }
+        ];
+
+        function calculate() {
+            const y = document.getElementById('year').value;
+            const m = document.getElementById('month').value;
+            const d = document.getElementById('day').value;
+            let h = document.getElementById('hour').value;
+
+            if(!y || !m || !d || !h) {
+                alert("請輸入完整的生辰信息，以便我們為您進行解析。");
+                return;
+            }
+
+            if (h === "-1") h = 0; 
+
+            document.getElementById('input-card').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+            setTimeout(() => {
+                const sum = parseInt(y) + parseInt(m) + parseInt(d) + parseInt(h);
+                const res = db[sum % 5]; 
+
+                document.getElementById('res-element').innerText = res.type;
+                document.getElementById('res-keyword').innerText = res.keyword;
+                document.getElementById('res-fortune-career').innerText = res.fortuneCareer;
+                document.getElementById('res-fortune-health').innerText = res.fortuneHealth;
+                document.getElementById('res-crystal-name').innerText = res.crystalName;
+                document.getElementById('res-crystal-desc').innerText = res.crystalDesc;
+                
+                // 設定圖片
+                document.getElementById('res-img').src = getCrystalImage(res.imgKeyword);
+
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('result-section').style.display = 'block';
+            }, 1800);
+        }
+
+        function reset() {
+            document.getElementById('result-section').style.display = 'none';
+            document.getElementById('input-card').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
