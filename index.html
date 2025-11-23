@@ -82,15 +82,12 @@
         }
         .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3); filter: brightness(1.1); }
 
-        /* 幽靈按鈕 (外框風格) */
         .btn-ghost {
             background: transparent; 
             border: 1px solid var(--accent-gold); 
             color: var(--accent-gold);
         }
-        .btn-ghost:hover {
-            background: rgba(212, 175, 55, 0.1);
-        }
+        .btn-ghost:hover { background: rgba(212, 175, 55, 0.1); }
 
         /* 結果區樣式 */
         #result-section { display: none; animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
@@ -101,9 +98,7 @@
             padding: 6px 18px; border-radius: 50px; font-size: 0.8rem; letter-spacing: 1.5px;
         }
 
-        .missing-element-display {
-            text-align: center; margin-bottom: 40px;
-        }
+        .missing-element-display { text-align: center; margin-bottom: 40px; }
         .element-big {
             font-size: 3.5rem; color: var(--text-main);
             text-shadow: 0 0 30px var(--accent-gold-dim);
@@ -116,45 +111,62 @@
             border-left: 2px solid var(--accent-gold-dim);
             padding-left: 20px;
         }
-        .fortune-block h3 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
-        .fortune-block p { font-size: 0.95rem; line-height: 1.8; color: #ccc; margin-bottom: 15px; text-align: justify; }
+        .fortune-block h3 { font-size: 1.1rem; margin-bottom: 15px; color: #fff; }
+        .fortune-block p { font-size: 0.95rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; text-align: justify; }
+        
+        .highlight-text { color: var(--accent-gold); font-weight: 500; }
 
-        /* 水晶推薦區 (圖文排版) */
+        /* 水晶推薦區 */
+        .crystal-section-title {
+            text-align: center; margin: 30px 0 20px 0;
+            font-size: 1.1rem; color: var(--accent-gold);
+            position: relative;
+        }
+        .crystal-section-title::before, .crystal-section-title::after {
+            content: ''; position: absolute; top: 50%; width: 50px; height: 1px; background: var(--accent-gold-dim);
+        }
+        .crystal-section-title::before { left: 20px; }
+        .crystal-section-title::after { right: 20px; }
+
         .crystal-card {
             display: flex; align-items: center; gap: 25px;
             background: rgba(212, 175, 55, 0.06);
             padding: 25px; border-radius: 12px;
-            margin-top: 30px; margin-bottom: 35px; /* 增加底部間距給按鈕 */
+            margin-bottom: 20px;
             border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: transform 0.3s ease;
         }
+        .crystal-card:hover { background: rgba(212, 175, 55, 0.1); transform: translateX(5px); }
 
         .crystal-img-wrapper {
-            flex-shrink: 0; width: 120px; height: 120px;
+            flex-shrink: 0; width: 100px; height: 100px;
             border-radius: 50%; overflow: hidden;
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-            position: relative;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
             background: #000;
+            /* 預先加載背景色，避免圖片載入前黑一片 */
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a); 
         }
 
         .crystal-img-wrapper img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s;
-            opacity: 0; animation: fadeInImg 1s forwards;
+            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0; /* 初始隱藏，載入後顯示 */
         }
-        @keyframes fadeInImg { to { opacity: 1; } }
+        .crystal-img-wrapper img.loaded { opacity: 1; }
 
         .crystal-card:hover .crystal-img-wrapper img { transform: scale(1.1); }
-        .crystal-content h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--accent-gold); }
-        .crystal-content p { font-size: 0.9rem; color: #d1d1d1; line-height: 1.6; }
+        .crystal-content h4 { font-size: 1.1rem; margin-bottom: 6px; color: var(--accent-gold); }
+        .crystal-content p { font-size: 0.9rem; color: #d1d1d1; line-height: 1.5; }
 
         /* RWD */
         @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
-            .crystal-card { flex-direction: column; text-align: center; }
+            .crystal-card { flex-direction: column; text-align: center; gap: 15px; }
             .fortune-block { border-left: none; border-top: 2px solid var(--accent-gold-dim); padding-left: 0; padding-top: 20px; }
             .container { padding: 20px; }
             .card { padding: 30px 20px; }
+            .crystal-section-title::before, .crystal-section-title::after { display: none; }
         }
 
         /* Loading */
@@ -219,7 +231,7 @@
             <div class="missing-element-display">
                 <p style="color: var(--text-muted); font-size: 0.9rem;">您的五行能量缺口</p>
                 <h2 class="element-big" id="res-element">金 Metal</h2>
-                <p style="color: var(--accent-gold); font-size: 0.9rem;" id="res-keyword">需補強：決斷力與財庫</p>
+                <p style="color: var(--accent-gold); font-size: 0.9rem;" id="res-keyword">年度關鍵字：淬鍊成金．建立權威</p>
             </div>
 
             <div class="fortune-block">
@@ -228,17 +240,10 @@
                 <p id="res-fortune-health"></p>
             </div>
 
-            <div class="crystal-card">
-                <div class="crystal-img-wrapper">
-                    <img id="res-img" src="" alt="Crystal" onerror="this.src='https://via.placeholder.com/150/000000/FFFFFF?text=Crystal'">
-                </div>
-                <div class="crystal-content">
-                    <h4 id="res-crystal-name">推薦：鈦晶 Rutilated Quartz</h4>
-                    <p id="res-crystal-desc">鈦晶具有強大的投射能量，能補足金氣，為您在火旺之年劈開阻礙，招引正財。</p>
-                </div>
-            </div>
+            <div class="crystal-section-title">✦ 命定水晶推薦</div>
+            <div id="crystal-container"></div>
 
-            <button class="btn-main" onclick="window.open('https://ltep.meepshoper.com/', '_blank')">
+            <button class="btn-main" style="margin-top: 25px;" onclick="window.open('https://ltep.meepshoper.com/', '_blank')">
                 ✦ 前往官網 選購命定水晶
             </button>
 
@@ -249,63 +254,187 @@
     </div>
 
     <script>
-        // 初始化日期
         const mSel = document.getElementById('month');
         const dSel = document.getElementById('day');
         for(let i=1;i<=12;i++) mSel.add(new Option(i+"月", i));
         for(let i=1;i<=31;i++) dSel.add(new Option(i+"日", i));
 
-        // Pollinations AI 圖片生成
-        const getCrystalImage = (keyword) => {
-            const randomSeed = Math.floor(Math.random() * 1000);
-            return `https://image.pollinations.ai/prompt/${keyword}%20gemstone%20crystal%20jewelry%20macro%20cinematic%20lighting%20high%20quality?width=300&height=300&nologo=true&seed=${randomSeed}`;
+        // 關鍵修改：使用固定的 Seed (種子碼)，確保圖片被快取，不再每次重算
+        // Prompt 優化：強調 raw crystal, macro photography, natural lighting
+        const getCrystalImage = (keyword, fixedSeed) => {
+            const prompt = `raw ${keyword} mineral specimen, high quality macro photography, natural soft lighting, 8k resolution, photorealistic, no blur`;
+            // 將 prompt 轉為 URL 編碼
+            const encodedPrompt = encodeURIComponent(prompt);
+            // 加上 nologo=true 去除浮水印
+            // 加上 seed=${fixedSeed} 讓圖片固定，瀏覽器會快取，速度極快
+            return `https://image.pollinations.ai/prompt/${encodedPrompt}?width=250&height=250&nologo=true&seed=${fixedSeed}&model=flux`;
         };
 
         const db = [
             { 
                 type: '金 (Metal)', 
-                keyword: '需補強：決斷力與財庫',
-                fortuneCareer: '【事業與財運】：2026丙午年為火旺之年，火能剋金。對於缺金的您而言，今年職場上容易面臨「強壓」或「權威挑戰」。財務上可能會因為一時衝動或耳根子軟而有不必要的支出。關鍵在於「守」與「定」，切勿盲目跟風投資。',
-                fortuneHealth: '【身心與平衡】：金主呼吸系統與大腸。火氣過旺容易導致呼吸道敏感或皮膚乾燥。心理層面上，容易產生自我懷疑，需建立強大的心理邊界。',
-                crystalName: '首選：鈦晶 (Titanium Quartz)',
-                crystalDesc: '鈦晶為水晶之王，金黃色的光芒對應太陽輪與財富。它強勁霸道的能量能補足您缺失的「金」氣，助您在職場上展現魄力，同時具有極強的招財與擋煞效果，是火年保身的最佳利器。',
-                imgKeyword: 'Gold%20Rutile%20Quartz' 
+                keyword: '年度關鍵字：高壓淬鍊．去蕪存菁',
+                fortuneCareer: `
+                    <span class="highlight-text">【機遇】</span>：古語云「真金不怕火煉」。2026年對您而言是「職涯含金量」大增的一年。職場能見度高，有機會承接高難度專案，一旦成功將確立您的權威地位。<br>
+                    <span class="highlight-text">【挑戰】</span>：火剋金，過程絕對不輕鬆。您會明顯感受到來自上司或市場的「壓迫感」，容易感到焦慮、神經緊繃，甚至有想放棄的念頭。財務上需防耳根子軟，容易因面子問題而破費。<br>
+                    <span class="highlight-text">【建議】</span>：適合從事金融、法律、精密工業等講求原則的行業。今年策略是「守住底線」，不要盲目擴張。面對壓力時，請視為雕塑鑽石的必經過程。
+                `,
+                fortuneHealth: `
+                    <span class="highlight-text">【身心建議】</span>：金主呼吸系統。火旺之年容易有呼吸道敏感、皮膚乾癢等「燥」症。
+                    <br>✦ 建議：多進行深呼吸練習，保持室內濕度。心理上要建立「情緒防火牆」，不要讓外人的評價輕易灼傷您的自信。
+                `,
+                recommendations: [
+                    {
+                        name: '1. 鈦晶 (Rutilated Quartz)',
+                        desc: '「強勢的正財之光」。金黃髮絲對應太陽輪，為您披上能量盔甲，將職場壓力轉化為前進動力。',
+                        imgKey: 'Gold%20Rutilated%20Quartz',
+                        seed: 101 // 固定種子碼
+                    },
+                    {
+                        name: '2. 白幽靈 (White Phantom)',
+                        desc: '「心靈的淨化器」。在躁動的年份，幫助思緒如冰雪般清晰，做出理性決策，避免衝動漏財。',
+                        imgKey: 'White%20Phantom%20Quartz%20Crystal',
+                        seed: 102
+                    },
+                    {
+                        name: '3. 月光石 (Moonstone)',
+                        desc: '「溫柔的守護者」。柔和光暈中和外在尖銳火氣，提升人格魅力，保有圓融人際關係。',
+                        imgKey: 'White%20Moonstone%20Gemstone',
+                        seed: 103
+                    }
+                ]
             },
             { 
                 type: '木 (Wood)', 
-                keyword: '需補強：創造力與生機',
-                fortuneCareer: '【事業與財運】：火賴木生，木盡火滅。2026年火氣極盛，嚴重消耗木的能量。缺木的您今年容易感到「被掏空」，創意枯竭，工作上缺乏新方向，容易陷入機械式的疲勞運轉。建議多接觸新知，避免固步自封。',
-                fortuneHealth: '【身心與平衡】：木主肝膽與神經系統。需特別注意熬夜帶來的身體發炎反應，以及眼睛疲勞。情緒上容易焦慮緊繃，需要透過接觸大自然來釋放壓力。',
-                crystalName: '首選：綠幽靈 (Green Phantom)',
-                crystalDesc: '綠幽靈被稱為「鬼佬財神」，其綠色光芒對應心輪，象徵宇宙的生機與正財。佩戴綠幽靈能為乾涸的命局注入源源不絕的生命力，助您在事業上找回熱情，並吸引貴人提攜。',
-                imgKeyword: 'Green%20Phantom%20Quartz'
+                keyword: '年度關鍵字：才華燃燒．過猶不及',
+                fortuneCareer: `
+                    <span class="highlight-text">【機遇】</span>：木生火，2026年是您「才華變現」的關鍵年！您的創意與構想極易被看見，是團隊中的靈感核心，名聲傳播速度極快。<br>
+                    <span class="highlight-text">【挑戰】</span>：火旺則木焚。最大的危機是「過度燃燒」。您可能會因為太想表現或不懂拒絕，導致精力被掏空，出現「做很多但回收不成比例」的疲勞感，甚至創意枯竭。<br>
+                    <span class="highlight-text">【建議】</span>：適合教育、設計、寫作等輸出型行業。但切記「留得青山在」，必須嚴格控管工作時間。多學習新知（進修）是為自己添加燃料的唯一途徑，避免被榨乾。
+                `,
+                fortuneHealth: `
+                    <span class="highlight-text">【身心建議】</span>：木主肝與神經。才思敏捷的代價是腦神經衰弱與睡眠品質下降，需嚴防過勞。
+                    <br>✦ 建議：強迫自己「放空」。接觸大自然（森林浴）是最好的充電方式。眼睛容易疲勞，需控制3C使用時間。
+                `,
+                recommendations: [
+                    {
+                        name: '1. 綠幽靈 (Green Phantom)',
+                        desc: '「事業的推進器」。綠色光芒對應心輪，源源不絕補充被消耗的木氣，吸引貴人提攜。',
+                        imgKey: 'Green%20Phantom%20Quartz%20Crystal',
+                        seed: 201
+                    },
+                    {
+                        name: '2. 綠髮晶 (Green Rutilated Quartz)',
+                        desc: '「加薪之石」。能量如樹木扎根般強勁，增強事業企圖心，將創意轉化為實際薪資增長。',
+                        imgKey: 'Green%20Rutilated%20Quartz',
+                        seed: 202
+                    },
+                    {
+                        name: '3. 孔雀石 (Malachite)',
+                        desc: '「療癒與轉化」。美麗的同心圓紋路能吸收疲勞與負能量，守護內在平衡，防止身心透支。',
+                        imgKey: 'Green%20Malachite%20Stone',
+                        seed: 203
+                    }
+                ]
             },
             { 
                 type: '水 (Water)', 
-                keyword: '需補強：溝通與情緒調節',
-                fortuneCareer: '【事業與財運】：水火不容，2026年火勢強勁，缺水者猶如「旱地」。在職場人際溝通上容易發生摩擦，或者感到孤立無援。今年不宜強出頭，適合採取「以柔克剛」的策略，多做幕後策劃或數據分析工作。',
-                fortuneHealth: '【身心與平衡】：水主腎與生殖泌尿系統。需多補充水分，注意代謝循環。情緒上起伏較大，容易煩躁易怒，需學習冥想或透過水上活動來調節磁場。',
-                crystalName: '首選：黑曜石 (Black Obsidian)',
-                crystalDesc: '黑曜石極度避邪化煞，且五行屬水。在火氣沖天的年份，黑曜石能有效吸收周遭的躁氣與負能量，讓您的心境如深海般平靜沉穩。它亦能防小人暗算，是職場生存的護身符。',
-                imgKeyword: 'Black%20Obsidian%20Stone'
+                keyword: '年度關鍵字：以柔克剛．逆勢突圍',
+                fortuneCareer: `
+                    <span class="highlight-text">【機遇】</span>：物以稀為貴。在火氣沖天的年份，缺水的您擁有眾人最缺乏的「冷靜視角」。您是最佳的剎車與策略師，能看見別人看不見的盲點。<br>
+                    <span class="highlight-text">【挑戰】</span>：水火不容，衝突在所難免。您容易覺得周遭的人太浮躁、不講理，導致人際關係緊張，甚至感到孤立無援。職場溝通容易產生誤會。<br>
+                    <span class="highlight-text">【建議】</span>：適合諮商、數據分析、物流或飲品業。千萬不要「硬碰硬」，那只會蒸發您的能量。請採取「迂迴戰術」，多用數據說話，少用情緒對抗。
+                `,
+                fortuneHealth: `
+                    <span class="highlight-text">【身心建議】</span>：水主腎與循環。需注意水分攝取與代謝問題。情緒容易像海浪般起伏不定。
+                    <br>✦ 建議：多親近水邊（游泳、泡澡）。煩躁時請暫時離開現場，喝杯水冷靜。學習冥想能有效調節您的磁場。
+                `,
+                recommendations: [
+                    {
+                        name: '1. 黑曜石 (Black Obsidian)',
+                        desc: '「沈穩的定海神針」。吸收周遭躁氣，形成強大保護結界，在紛擾中穩住陣腳，防禦小人。',
+                        imgKey: 'Black%20Obsidian%20Stone',
+                        seed: 301
+                    },
+                    {
+                        name: '2. 海藍寶 (Aquamarine)',
+                        desc: '「溝通之石」。對應喉輪，幫助在火爆氣氛中說出有智慧的話語，開啟順暢人際關係。',
+                        imgKey: 'Blue%20Aquamarine%20Crystal',
+                        seed: 302
+                    },
+                    {
+                        name: '3. 青金石 (Lapis Lazuli)',
+                        desc: '「智慧的導航者」。深藍色帶金，能開啟洞察力，幫助看清局勢真相，精準抓住機會。',
+                        imgKey: 'Blue%20Lapis%20Lazuli%20Stone',
+                        seed: 303
+                    }
+                ]
             },
             { 
                 type: '火 (Fire)', 
-                keyword: '需補強：行動力與熱情',
-                fortuneCareer: '【事業與財運】：雖逢火年，但若本命缺火，代表無法有效利用流年的勢能，甚至會產生「虛不受補」的狀況。今年您可能會有許多想法，但總是缺乏臨門一腳的執行力。今年是轉運關鍵，必須強迫自己動起來，主動爭取舞台。',
-                fortuneHealth: '【身心與平衡】：火主心血管與小腸。缺火者容易手腳冰冷，循環較差。精神上容易消極、提不起勁。建議多曬太陽，保持運動習慣以維持體溫與能量。',
-                crystalName: '首選：紫水晶 (Amethyst)',
-                crystalDesc: '紫水晶兼具火的熱情與水的智慧（紅+藍=紫）。它能開發智慧，同時提升貴人運（因貴人屬火）。配戴紫水晶能幫助您更敏銳地捕捉流年帶來的機會，將火年的能量轉化為實質的人脈存摺。',
-                imgKeyword: 'Purple%20Amethyst%20Crystal'
+                keyword: '年度關鍵字：順風順水．慎防虛胖',
+                fortuneCareer: `
+                    <span class="highlight-text">【機遇】</span>：流年與本命相呼應，2026是您「借力使力」的最佳年份！過去推不動的計畫，今年大環境會推著您走。社交活躍，人脈快速擴張，適合拓展業務。<br>
+                    <span class="highlight-text">【挑戰】</span>：雖然機會多，但容易陷入「虛胖」——雷聲大雨點小。可能談了很多合作，最後落實的卻不多。或者因為太過自信，忽視了細節執行，導致虎頭蛇尾。<br>
+                    <span class="highlight-text">【建議】</span>：適合行銷、表演、科技或時尚業。務必強迫自己「落地執行」，不要只停留在想的階段。篩選無效社交，專注於能帶來實質效益的合作。
+                `,
+                fortuneHealth: `
+                    <span class="highlight-text">【身心建議】</span>：火主心血管。雖然流年旺，但本命缺火者仍要注意「外熱內冷」，手腳冰冷問題可能依舊存在。
+                    <br>✦ 建議：多曬太陽，保持規律的有氧運動讓身體真正熱起來。心態上要避免三分鐘熱度，培養耐心是今年的健康課題。
+                `,
+                recommendations: [
+                    {
+                        name: '1. 紫水晶 (Amethyst)',
+                        desc: '「貴人之石」。提升社交智慧，在場合中如魚得水，將流年人氣轉化為實質貴人運。',
+                        imgKey: 'Purple%20Amethyst%20Crystal',
+                        seed: 401
+                    },
+                    {
+                        name: '2. 石榴石 (Garnet)',
+                        desc: '「生命力的泉源」。深紅光澤改善循環，在疲憊時迅速補充熱情與體力，助您堅持到底。',
+                        imgKey: 'Red%20Garnet%20Gemstone',
+                        seed: 402
+                    },
+                    {
+                        name: '3. 太陽石 (Sunstone)',
+                        desc: '「勝利的陽光」。充滿正向陽剛能量，驅散陰霾與恐懼，讓您自信爆棚，成為焦點。',
+                        imgKey: 'Orange%20Sunstone%20Crystal',
+                        seed: 403
+                    }
+                ]
             },
             { 
                 type: '土 (Earth)', 
-                keyword: '需補強：穩定度與庫存',
-                fortuneCareer: '【事業與財運】：火生土，2026年火雖旺，但若無土承接，則「財來財去一場空」。缺土的您今年機會很多，現金流可能不錯，但很難存下來。容易搬家、換工作或奔波。今年的課題是「落地生根」，專注於累積資產。',
-                fortuneHealth: '【身心與平衡】：土主脾胃與消化系統。今年需特別注意飲食規律，避免暴飲暴食。心理上容易缺乏安全感，感到飄泊無依，需多親近土地或從事陶藝等活動。',
-                crystalName: '首選：黃水晶 (Citrine)',
-                crystalDesc: '黃水晶主偏財，五行屬土，被譽為「財富之石」。它具有凝聚財富的能量，能將流年火氣轉化為厚實的財庫。配戴黃水晶能增加企圖心與穩定性，讓您在動盪的火年中穩如泰山。',
-                imgKeyword: 'Yellow%20Citrine%20Crystal'
+                keyword: '年度關鍵字：資源湧入．去留考驗',
+                fortuneCareer: `
+                    <span class="highlight-text">【機遇】</span>：火生土，2026年資源會主動流向您。無論是資金、物質或機會，您會發現今年「收穫」變得容易許多，是資產累積的黃金期。<br>
+                    <span class="highlight-text">【挑戰】</span>：土若無根則鬆散。雖然進帳多，但若無規劃，很容易「財來財去一場空」。生活可能變得動盪（搬家、換工作、奔波），導致內心缺乏安全感，覺得飄泊不定。<br>
+                    <span class="highlight-text">【建議】</span>：適合房地產、行政管理、倉儲或農業。今年的核心任務是「定」。強迫自己記帳、儲蓄、置產。對於變動，請視為擴大版圖的機會，而非災難。
+                `,
+                fortuneHealth: `
+                    <span class="highlight-text">【身心建議】</span>：土主脾胃。豐收之年容易放縱口腹之慾，需特別注意腸胃負擔與體重管理。
+                    <br>✦ 建議：飲食要規律，少吃生冷。容易焦慮不安時，接觸泥土（園藝、陶藝）或赤腳踩草地，能有效幫助您「接地氣」，找回平靜。
+                `,
+                recommendations: [
+                    {
+                        name: '1. 黃水晶 (Citrine)',
+                        desc: '「財富聚寶盆」。主偏財，像磁鐵般將流年財富能量凝聚身邊，增強對財務的掌控力。',
+                        imgKey: 'Yellow%20Citrine%20Crystal',
+                        seed: 501
+                    },
+                    {
+                        name: '2. 虎眼石 (Tiger\'s Eye)',
+                        desc: '「王者的勇氣」。提升執行力與霸氣，幫助在機會面前果斷出手，穩穩守住勝利成果。',
+                        imgKey: 'Golden%20Tiger%20Eye%20Stone',
+                        seed: 502
+                    },
+                    {
+                        name: '3. 茶晶 (Smoky Quartz)',
+                        desc: '「穩重的守護者」。能量深沉接地，過濾浮躁病氣，保持腳踏實地，累積碩大成果。',
+                        imgKey: 'Smoky%20Quartz%20Crystal',
+                        seed: 503
+                    }
+                ]
             }
         ];
 
@@ -325,23 +454,39 @@
             document.getElementById('input-card').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
 
+            // 縮短等待時間到 1.2秒 (因為圖片現在讀取很快了)
             setTimeout(() => {
                 const sum = parseInt(y) + parseInt(m) + parseInt(d) + parseInt(h);
                 const res = db[sum % 5]; 
 
                 document.getElementById('res-element').innerText = res.type;
                 document.getElementById('res-keyword').innerText = res.keyword;
-                document.getElementById('res-fortune-career').innerText = res.fortuneCareer;
-                document.getElementById('res-fortune-health').innerText = res.fortuneHealth;
-                document.getElementById('res-crystal-name').innerText = res.crystalName;
-                document.getElementById('res-crystal-desc').innerText = res.crystalDesc;
+                document.getElementById('res-fortune-career').innerHTML = res.fortuneCareer;
+                document.getElementById('res-fortune-health').innerHTML = res.fortuneHealth;
                 
-                // 設定圖片
-                document.getElementById('res-img').src = getCrystalImage(res.imgKeyword);
+                const container = document.getElementById('crystal-container');
+                container.innerHTML = ''; 
+                
+                res.recommendations.forEach(crystal => {
+                    const imgSrc = getCrystalImage(crystal.imgKey, crystal.seed);
+                    
+                    const cardHTML = `
+                        <div class="crystal-card">
+                            <div class="crystal-img-wrapper">
+                                <img src="${imgSrc}" alt="${crystal.name}" onload="this.classList.add('loaded')">
+                            </div>
+                            <div class="crystal-content">
+                                <h4>${crystal.name}</h4>
+                                <p>${crystal.desc}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', cardHTML);
+                });
 
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('result-section').style.display = 'block';
-            }, 1800);
+            }, 1200);
         }
 
         function reset() {
